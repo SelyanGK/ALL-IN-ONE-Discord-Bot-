@@ -12,7 +12,7 @@ module.exports = async (client, interaction, args) => {
     fields: [
       {
         name: "ℹ️┆Information",
-        value: `Bot is a bot with which you can run your entire server! With no less than 500+ commands, we have a large bot with many options to improve your server!`,
+        value: `Quantum is a bot with which you can run your entire server! With a lot of commands to choose from, we have a large bot with many options to improve your server!`,
         inline: false,
       },
       {
@@ -31,8 +31,8 @@ module.exports = async (client, interaction, args) => {
         inline: true,
       },
       {
-        name: "🔧┆Bot developer",
-        value: `<@!922120042651451423> - @uoaio`,
+        name: "🔧┆Bot Developer",
+        value: `<@!${process.env.OWNER_ID}> `,
         inline: true,
       },
       {

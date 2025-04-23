@@ -9,7 +9,7 @@ require("moment-duration-format");
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('help')
-        .setDescription('Get help with the bot'),
+        .setDescription('Get help with the bot.'),
 
     /** 
      * @param {Client} client
@@ -33,13 +33,13 @@ module.exports = {
                     name: "Categories [1-9]",
                     value: `>>> 🚫┆AFK
                     📣┆Announcement
-                    👮‍♂️┆Auto mod
-                    ⚙️┆Auto setup
+                    👮‍♂️┆Auto-Mod
+                    ⚙️┆Auto-Setup
                     🎂┆Birthday
                     🤖┆Bot
                     🎰┆Casino
                     ⚙┆Configuration
-                    💻┆CustomCommand`,
+                    💻┆Custom Commands`,
                     inline: true
                 },
                 {
@@ -51,7 +51,7 @@ module.exports = {
                     📓┆Notepad
                     👤┆Profile
                     📻┆Radio
-                    😛┆Reaction Role
+                    😛┆Reaction Roles
                     🔍┆Search`,
                     inline: true
                 },
@@ -62,7 +62,7 @@ module.exports = {
                 },
                 {
                     name: "Categories [10-18]",
-                    value: `>>> 💳┆Dcredits
+                    value: `>>> 💳┆D-credits
                       💰┆Economy
                       👪┆Family
                       😂┆Fun
@@ -77,7 +77,7 @@ module.exports = {
                     value: `>>> 📊┆Server stats
                     ⚙️┆Setup
                     🎛┆Soundboard
-                    🗨️┆StickyMessage
+                    🗨️┆Sticky Messages
                     💡┆Suggestions
                     🤝┆Thanks
                     🎫┆Tickets
@@ -97,9 +97,9 @@ module.exports = {
             backButton = new ButtonBuilder().setStyle(2).setEmoji(`⬅️`).setCustomId('back'),
             forwardButton = new ButtonBuilder().setStyle(2).setEmoji(`➡️`).setCustomId('forward'),
             endButton = new ButtonBuilder().setStyle(2).setEmoji(`⏭️`).setCustomId('end'),
-            link = new ButtonBuilder().setStyle(5).setLabel("S" + "u" + "b" + "sc" + "ri" + "b" + "e" + "!").setEmoji(`🥹`).setURL('https://rebrand.ly/uo-dev')
+            link = new ButtonBuilder().setStyle(5).setLabel("." + "g" + "g" + "/" + "sn" + "ow" + "hi" + "ll").setEmoji(`🥹`).setURL('https://discord.gg/snowhill')
 
-        const options = [{ label: 'Owerview', value: '0' }]
+        const options = [{ label: 'Overview', value: '0' }]
         const options2 = []
 
         let counter = 0
@@ -121,8 +121,8 @@ module.exports = {
             options2.push(opt)
         })
 
-        let menu = new StringSelectMenuBuilder().setPlaceholder('Change page').setCustomId('pagMenu').addOptions(options).setMaxValues(1).setMinValues(1),
-            menu2 = new StringSelectMenuBuilder().setPlaceholder('Change page').setCustomId('pagMenu2').addOptions(options2).setMaxValues(1).setMinValues(1)
+        let menu = new StringSelectMenuBuilder().setPlaceholder('Change pages (1-25)').setCustomId('pagMenu').addOptions(options).setMaxValues(1).setMinValues(1),
+            menu2 = new StringSelectMenuBuilder().setPlaceholder('Change pages (25-37').setCustomId('pagMenu2').addOptions(options2).setMaxValues(1).setMinValues(1)
 
         const allButtons = [startButton.setDisabled(true), backButton.setDisabled(true), forwardButton.setDisabled(false), endButton.setDisabled(false), link]
 
@@ -133,7 +133,7 @@ module.exports = {
         const components = [group2, group1, group3]
 
         let helpMessage = await interaction.reply({
-            content: `Click on the buttons to change page`,
+            content: `Click on the buttons to change pages`,
             embeds: [em1],
             components: components,
         })
@@ -149,7 +149,7 @@ module.exports = {
         collector.on('collect', async (b) => {
             if (b.user.id !== interaction.user.id)
                 return b.reply({
-                    content: `**You Can't Use it\n**`,
+                    content: `**You can't use that\n**`,
                     ephemeral: true
                 });
             switch (b.customId) {

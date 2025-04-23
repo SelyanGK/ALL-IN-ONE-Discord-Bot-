@@ -19,7 +19,7 @@ module.exports = {
             .addComponents(
                 new Discord.ButtonBuilder()
                     .setLabel("Invite")
-                    .setURL(client.config.discord.botInvite)
+                    .setURL("https://discord.com/oauth2/authorize?client_id=1362360885036978216&permissions=8&integration_type=0&scope=bot+applications.commands")
                     .setStyle(Discord.ButtonStyle.Link),
 
                 new Discord.ButtonBuilder()
@@ -30,7 +30,7 @@ module.exports = {
 
         client.embed({
             title: `📨・Invite`,
-            desc: `Make your server even better with Bot!`,
+            desc: `Make your server even better with Quantum!`,
             image: "https://cdn.discordapp.com/attachments/843487478881976381/874694194474668052/Bot_banner_invite.jpg",
             url: client.config.discord.botInvite,
             components: [row],

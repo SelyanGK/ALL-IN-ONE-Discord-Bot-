@@ -1,5 +1,5 @@
 module.exports = {
-    ai_prompt: `You are helpful assistant`,
+    ai_prompt: `You are a helpful assistant`,
 
     colors: {
         succes: '#57F287',

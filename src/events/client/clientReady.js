@@ -19,11 +19,11 @@ module.exports = async (client) => {
             statuttext = process.env.DISCORD_STATUS.split(', ');
         } else {
             statuttext = [
-                `・❓┆/help`,
-                `・💻┆${client.guilds.cache.size} servers`,
-                `・📨┆discord.gg/uoaio`,
-                `・🎉┆400+ commands`,
-                `・🏷️┆Version ${require(`${process.cwd()}/package.json`).version}`
+                `・.gg/snowhill`,
+                `・.gg/snowhill`,
+                `・.gg/snowhill`,
+                `・.gg/snowhill`,
+                `・.gg/snowhill`
             ];
         }
         const randomText = statuttext[Math.floor(Math.random() * statuttext.length)];

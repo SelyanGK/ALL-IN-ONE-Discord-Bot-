@@ -1,68 +1,73 @@
-const { CommandInteraction, Client } = require('discord.js');
-const { ContextMenuCommandBuilder } = require('discord.js');
-const Discord = require('discord.js');
-
+const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const Schema = require("../../database/models/warnings");
 
 module.exports = {
-    data: new ContextMenuCommandBuilder()
-        .setName('Warnings')
-        .setType(2),
+    data: new SlashCommandBuilder()
+        .setName('warnings')
+        .setDescription('View the warnings of a user')
+        .addUserOption(option =>
+            option.setName('user')
+                .setDescription('The user to check')
+                .setRequired(true)
+        ),
 
-    /** 
-     * @param {Client} client
-     * @param {CommandInteraction} interaction
-     * @param {String[]} args
-     */
-    run: async (client, interaction, args) => {
-        const perms = await client.checkPerms({
-            flags: [Discord.PermissionsBitField.Flags.ManageMessages],
-            perms: [Discord.PermissionsBitField.Flags.ManageMessages]
-        }, interaction)
+    async execute(interaction, client) {
+        // Get the member from the interaction
+        const member = interaction.member;
 
-        if (perms == false){
-            client.errNormal({
+        // Check if the user has ManageMessages permission or is the server owner
+        const isOwner = interaction.guild.ownerId === interaction.user.id;
+        const hasPermission = member.permissions.has(PermissionsBitField.Flags.ManageMessages);
+
+        if (!hasPermission && !isOwner) {
+            return client.errNormal({
                 error: "You don't have the required permissions to use this command!",
-                type: 'ephemeral'
+                type: 'editreply'
             }, interaction);
-            return;
         }
-        await interaction.deferReply({ ephemeral: false });
 
-        const member = interaction.guild.members.cache.get(interaction.targetId);
+        // Get the member to check their warnings
+        const user = interaction.options.getUser('user');
+        if (!user) {
+            return interaction.reply({
+                content: "Please specify a valid user.",
+                ephemeral: true
+            });
+        }
 
-        Schema.findOne({ Guild: interaction.guild.id, User: member.id }, async (err, data) => {
+        // Check the database for warnings
+        Schema.findOne({ Guild: interaction.guild.id, User: user.id }, async (err, data) => {
+            if (err) {
+                console.error("Warnings DB Error:", err);
+                return client.errNormal({
+                    error: "There was an error fetching the warnings from the database.",
+                    type: 'editreply'
+                }, interaction);
+            }
+
             if (data) {
-                var fields = [];
-                data.Warnings.forEach(element => {
-                    fields.push({
-                        name: "Warning **" + element.Case + "**",
-                        value: "Reason: " + element.Reason + "\nModerator <@!" + element.Moderator + ">",
-                        inline: true
-                    })
-                });
+                const fields = data.Warnings.map(warning => ({
+                    name: `Warning **${warning.Case}**`,
+                    value: `Reason: ${warning.Reason}\nModerator: <@!${warning.Moderator}>`,
+                    inline: true
+                }));
+
                 client.embed({
                     title: `${client.emotes.normal.error}・Warnings`,
-                    desc: `The warnings of **${member.user.tag}**`,
+                    desc: `The warnings of **${user.tag}**`,
                     fields: [
-                        {
-                            name: "Total",
-                            value: `${data.Warnings.length}`,
-                        },
+                        { name: "Total", value: `${data.Warnings.length}` },
                         ...fields
                     ],
                     type: 'editreply'
-                }, interaction)
-            }
-            else {
+                }, interaction);
+            } else {
                 client.embed({
                     title: `${client.emotes.normal.error}・Warnings`,
-                    desc: `User ${member.user.tag} has no warnings!`,
+                    desc: `User **${user.tag}** has no warnings!`,
                     type: 'editreply'
-                }, interaction)
+                }, interaction);
             }
-        })
-    },
+        });
+    }
 };
-
- 
